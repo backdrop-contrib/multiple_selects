@@ -25,7 +25,7 @@ function multiple_selects_theme() {
 function theme_multiple_selects_none($variables) {
   $instance = $variables['instance'];
   $option = $variables['option'];
-  $output = ($option == 'option_none' ? t('- None -') : t('- Select a value -'));
+  $output = ($option == 'option_none'?t('- None -') : t('- Select a value -'));
   return $output;
 }
 
@@ -49,7 +49,7 @@ function multiple_selects_field_widget_info() {
         'list_float',
         'list_text',
         'list_boolean',
-        'commerce_product_reference',
+        // 'commerce_product_reference',
       ),
     ),
   );
@@ -59,7 +59,7 @@ function multiple_selects_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function multiple_selects_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  
+
   // Abstract over the actual field columns, to allow different field types to
   // reuse those widgets.
   $value_key = key($field['columns']);
@@ -70,14 +70,14 @@ function multiple_selects_field_widget_form(&$form, &$form_state, $field, $insta
   $properties = _options_properties($type, $multiple, $required, $has_value);
   $entity_type = $element['#entity_type'];
   $entity = $element['#entity'];
-  
+
   // Prepare the list of options.
   $options = _multiple_selects_get_options($field, $instance, $properties, $entity_type, $entity);
 
   // Enforcing the element to have the value of the field instance label.
   $element['#title'] = $instance['label'];
   $element['#title_display'] = 'none';
-  
+
   $widget = $element;
 
   $widget += array(
@@ -97,7 +97,7 @@ function multiple_selects_field_widget_form(&$form, &$form_state, $field, $insta
  * Form element validation handler for options element.
  */
 function multiple_selects_widget_validate($element, &$form_state) {
-  
+
   $value_key = $element['#value_key'];
   $properties = $element['#properties'];
   $value = $element['#value'];
@@ -105,13 +105,13 @@ function multiple_selects_widget_validate($element, &$form_state) {
   if ($element['#required'] && $element['#value'] === '_none') {
     form_error($element, t('!name field is required.', array('!name' => $element['#title'])));
   }
-  
+
   if ($properties['empty_option']) {
     if ($value === '_none') {
       form_set_value($element, NULL, $form_state);
-    }    
+    }
   }
-  
+
 }
 
 /**
