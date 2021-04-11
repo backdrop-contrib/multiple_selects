@@ -1,6 +1,5 @@
-Welcome to Multiple Selects.
-
--- SUMMARY --
+Multiple Selects
+================
 
 Multiple Selects provides a widget for the the following fields types:
 
@@ -22,4 +21,18 @@ options
 
 -- INSTALLATION --
 
-Install as usual, see http://drupal.org/node/70151 for further information.
+Install as usual.
+
+License
+-------
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.
+
+
+Maintainers
+-----------
+
+Ported by docwilmot (https://github.com/docwilmot/)
+
+Maintained on Drupal by [webadpro](https://www.drupal.org/u/webadpro)
