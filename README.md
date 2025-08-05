@@ -1,5 +1,7 @@
-Multiple Selects
-================
+# Multiple Selects
+
+Rather than having a multi-select field, this modules allows you to have
+multiple select fields with the traditional FieldAPI 'Add another item' button.
 
 Multiple Selects provides a widget for the the following fields types:
 
@@ -11,28 +13,23 @@ Multiple Selects provides a widget for the the following fields types:
 - list_float
 - list_text
 
-Rather than having a multi-select field, this modules allows you to have
-multiple select fields with the traditional FieldAPI 'Add another item' button.
+## Installation
 
--- REQUIREMENTS --
+  - Install this module and its dependencies using the official
+    [Backdrop CMS instructions](https://backdropcms.org/guide/modules)
 
-options
+## Maintainers
 
+- [docwilmot](https://github.com/docwilmot/)
+- [Laryn Kragt Bakker](https://github.com/laryn)
 
--- INSTALLATION --
+## Credits
 
-Install as usual.
+- Ported by [docwilmot](https://github.com/docwilmot/)
+- Maintained on Drupal by [webadpro](https://www.drupal.org/u/webadpro)
 
-License
--------
+## License
 
 This project is GPL v2 software. See the LICENSE.txt file in this directory for
 complete text.
 
-
-Maintainers
------------
-
-Ported by docwilmot (https://github.com/docwilmot/)
-
-Maintained on Drupal by [webadpro](https://www.drupal.org/u/webadpro)
