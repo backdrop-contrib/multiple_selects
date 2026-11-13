@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * @file
+ */
+
+/**
  * Implements hook_theme().
  */
 function multiple_selects_theme() {
@@ -25,7 +29,7 @@ function multiple_selects_theme() {
 function theme_multiple_selects_none($variables) {
   $instance = $variables['instance'];
   $option = $variables['option'];
-  $output = ($option == 'option_none'?t('- None -') : t('- Select a value -'));
+  $output = ($option == 'option_none' ? t('- None -') : t('- Select a value -'));
   return $output;
 }
 
@@ -125,6 +129,11 @@ function multiple_selects_field_widget_error($element, $error, $form, &$form_sta
  * Collects the options for a field.
  */
 function _multiple_selects_get_options($field, $instance, $properties, $entity_type, $entity) {
+  // Override the core options_list for taxonomy_term_reference fields so we
+  // can add back the indentation for the term names.
+  if ($field['type'] == 'taxonomy_term_reference' && $field['module'] == 'taxonomy') {
+    $field['settings']['options_list_callback'] = '_multiple_selects_taxonomy_allowed_values';
+  }
   // Get the list of options.
   $options = (array) module_invoke($field['module'], 'options_list', $field, $instance, $entity_type, $entity);
 
@@ -136,9 +145,38 @@ function _multiple_selects_get_options($field, $instance, $properties, $entity_t
   }
 
   if ($properties['empty_option']) {
-    $label = theme('multiple_selects_none', array('instance' => $instance, 'option' => $properties['empty_option']));
+    $label = theme('multiple_selects_none', array(
+      'instance' => $instance,
+      'option' => $properties['empty_option'],
+    ));
     $options = array('_none' => $label) + $options;
   }
 
+  return $options;
+}
+
+/**
+ * Overrides the core options_list for taxonomy_term_reference fields
+ * so we can add back the indentation for the term names.
+ *
+ * @param array $field
+ *   The field definition array.
+ * @return array
+ *   An array of allowed values for the field, with term labels indented with
+ *   middots according to their depth.
+ *
+ * @see taxonomy_allowed_values()
+ */
+function _multiple_selects_taxonomy_allowed_values(array $field) {
+  $options = array();
+  foreach ($field['settings']['allowed_values'] as $tree) {
+    if ($vocabulary = taxonomy_vocabulary_load($tree['vocabulary'])) {
+      if ($terms = taxonomy_get_tree($vocabulary->machine_name, $tree['parent'])) {
+        foreach ($terms as $term) {
+          $options[$term->tid] = str_repeat('· ', $term->depth) . $term->name;
+        }
+      }
+    }
+  }
   return $options;
 }
